@@ -4,6 +4,7 @@ from datetime import datetime
 import time
 import os
 import re
+import sys
 
 from email.mime.text import MIMEText
 from email.header import Header
@@ -84,9 +85,17 @@ def run():
     print(compare_rate())
     send_or_not()
 
-if __name__ == '__main__':
-    reference_rate = '883'# find_gbp()
+def get_reference_rate_first():
+    global reference_rate
+    if len(sys.argv) == 2:
+        reference_rate = sys.argv[1]
+    else:
+        reference_rate = find_gbp()
 
+if __name__ == '__main__':
+    # reference_rate = '885' find_gbp()
+    get_reference_rate_first()
+    print('The reference rate is ' + reference_rate)
     while True:
         run()
         print(time.strftime('%Y-%m-%d %H:%M:%S\n', time.localtime(time.time())))
